@@ -4,15 +4,23 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FarmerRegistrationComponent } from './component/farmer-registration/farmer-registration.component';
+import {FormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
+import { FarmerSellComponent } from './component/farmer-sell/farmer-sell.component';
+import { TrnsitPassComponent } from './component/trnsit-pass/trnsit-pass.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FarmerRegistrationComponent
+    FarmerRegistrationComponent,
+    FarmerSellComponent,
+    TrnsitPassComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

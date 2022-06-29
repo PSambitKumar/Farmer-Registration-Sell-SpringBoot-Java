@@ -26,4 +26,5 @@ public class Farmer implements Serializable{
 	private String bankName;
 	private String ifscCode;
 	private String accountNumber;
+	private String branch;
 }

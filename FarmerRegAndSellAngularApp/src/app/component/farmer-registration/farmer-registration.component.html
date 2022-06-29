@@ -1,1 +1,105 @@
+<div class="card" style="font-family: 'Segoe UI Semibold'">
+  <div class="card-header">
+    <ul class="nav nav-tabs nav-fill">
+      <div>
+        <button class="btn btn-primary" (click)="callFarmerSell()">Farmer Sell</button>&nbsp;
+        <button class="btn btn-success" (click)="callTransit()">Transit Pass</button>
+      </div>
+    </ul>
+  </div>
 
+  <div class="card-body">
+    <div id="add">
+      <fieldset style="margin-left: 2rem; margin-right: 2rem;" class="form-group border p-3">
+        <legend class="w-auto px-2">Farmers Details</legend>
+        <form (ngSubmit)="farmerForm()" style="margin-top: 2rem; width: 99%"id="farmerForm">
+          <div class="container">
+
+            <div class="row farmerDetails">
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <label for="name" class="form-label">Farmer Name</label>
+                  <input [(ngModel)]="farmer.name" type="text"  class="form-control" maxlength="30" id="name" name="name"  placeholder="Enter Farmer's Name" required>
+                  <div id="nameAlert" class="custom-alert"></div>
+                </div>
+              </div>
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <label for="mobile" class="form-label">Mobile Number</label>
+                  <input [(ngModel)]="farmer.mobile"  type="number" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile Number" required>
+                  <div id="mobileAlert" class="custom-alert"></div>
+                </div>
+              </div>
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <label for="aadhar" class="form-label">Aadhar Number</label>
+                  <input [(ngModel)]="farmer.aadhar"  type="number" maxlength="2" class="form-control" id="aadhar" name="aadhar"  placeholder="Enter Aadhar Number" required>
+                  <div id="aadharAlert" class="custom-alert"></div>
+                </div>
+              </div>
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <label class="form-label">Bank Name</label>
+                  <input [(ngModel)]="farmer.bankName"  type="text"  class="form-control" id="bankName" name="bankName" placeholder="Enter Bank Name" required>
+                  <div id="bankAlert" class="custom-alert"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 2rem;">
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <label for="branchName" class="form-label">Branch Name</label>
+                  <input [(ngModel)]="farmer.branch"  type="text"  class="form-control" id="branchName"  name="bankName" placeholder="Enter Branch Name" required>
+                  <div id="relationAlert" class="custom-alert"></div>
+                </div>
+              </div>
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <label for="accountNumber" class="form-label">Account Number</label>
+                  <input [(ngModel)]="farmer.accountNumber" type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Enter  Account Number" required>
+                  <div id="accountNumberAlert" class="custom-alert"></div>
+                </div>
+              </div>
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <label for="ifscCode" class="form-label">IFSC Code</label>
+                  <input [(ngModel)]="farmer.ifscCode"  type="text"  class="form-control" id="ifscCode" name="ifscCode" placeholder="Enter IFSC Code" required>
+                  <div id="ifscAlert" class="custom-alert"></div>
+                </div>
+              </div>
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div style="margin-top: 2rem;" class="container">
+
+            <div class="row buttonClass">
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <button id="btnSubmit" class="btn btn-success" type="submit">Submit</button>
+                  <button id="btnReset" class="btn btn-warning" type="reset" style="margin-left: 1rem;">Reset</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </form>
+      </fieldset>
+    </div>
+  </div>
+</div>
