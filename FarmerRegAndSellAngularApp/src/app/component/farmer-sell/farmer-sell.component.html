@@ -1,0 +1,82 @@
+<div class="card" style="font-family: 'Segoe UI Semibold'">
+  <div class="card-header">
+    <ul class="nav nav-tabs nav-fill">
+      <div>
+        <button class="btn btn-primary" (click)="callRegisterFarmer()">Register Farmer</button>&nbsp;
+        <button class="btn btn-success" (click)="callTransit()">Transit Pass</button>
+      </div>
+    </ul>
+  </div>
+
+  <div class="card-body">
+    <div id="add">
+      <fieldset style="margin-left: 2rem; margin-right: 2rem;" class="form-group border p-3">
+        <legend class="w-auto px-2">Farmers Sell</legend>
+        <form (ngSubmit)="farmerSellForm()" style="margin-top: 2rem; width: 99%"id="farmerForm">
+          <div class="container">
+
+            <div class="row farmerDetails">
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <label for="" class="form-label">Farmer Code</label>
+                  <select [(ngModel)]="farmerSell.farmer" [ngModelOptions]="{standalone: true}"  class="custom-select my-1 mr-sm-2 form-control" aria-label="Default select example" id="farmerCode">
+                    <ng-container  *ngFor="let farmer of farmerList">
+                      <option  value="{{farmer.id}}">{{farmer.farmerCode}}</option>
+                    </ng-container>
+                  </select>
+                  <div id="nameAlert" class="custom-alert"></div>
+                </div>
+              </div>
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <label for="" class="form-label">Sell Quantity</label>
+                  <input [(ngModel)]="farmerSell.qty" [ngModelOptions]="{standalone: true}"  type="number" class="form-control" placeholder="Enter Sell Quantity" required>
+                  <div id="mobileAlert" class="custom-alert"></div>
+                </div>
+              </div>
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <label for="" class="form-label">Sell Amount</label>
+                  <input [(ngModel)]="farmerSell.ammount" [ngModelOptions]="{standalone: true}"  type="number"  class="form-control"   placeholder="Enter Sell Amount" required>
+                  <div id="aadharAlert" class="custom-alert"></div>
+                </div>
+              </div>
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <label class="form-label">Sell Date</label>
+                  <input [(ngModel)]="farmerSell.date" [ngModelOptions]="{standalone: true}"  type="date"  class="form-control" required>
+                  <div id="bankAlert" class="custom-alert"></div>
+                </div>
+              </div>
+            </div>
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                </div>
+              </div>
+
+          </div>
+
+          <div style="margin-top: 2rem;" class="container">
+
+            <div class="row buttonClass">
+
+              <div class="col-sm">
+                <div class="col-md-12">
+                  <button id="btnSubmit" class="btn btn-success" type="submit">Submit</button>
+                  <button id="btnReset" class="btn btn-warning" type="reset" style="margin-left: 1rem;">Reset</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </form>
+      </fieldset>
+    </div>
+  </div>
+</div>
