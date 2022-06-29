@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FarmerSell} from "../../model/farmer-sell";
 import {Farmer} from "../../model/farmer";
 import {FarmerServiceService} from "../../service/farmer-service.service";
+import {Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-farmer-sell',
@@ -12,7 +13,7 @@ export class FarmerSellComponent implements OnInit {
   farmerSell : FarmerSell =new FarmerSell();
   farmer : Farmer = new Farmer();
   farmerList : Farmer[] = [];
-  constructor(private farmerService: FarmerServiceService) { }
+  constructor(private farmerService: FarmerServiceService, private router : Router) { }
 
   ngOnInit(): void {
     this.farmerService.getFarmerList().subscribe(data => {
@@ -22,15 +23,16 @@ export class FarmerSellComponent implements OnInit {
     })
   }
   callRegisterFarmer(){
-
+    this.router.navigate(["farmerRegistration"]);
   }
   callTransit(){
-
+    this.router.navigate(["transitPass"]);
   }
   farmerSellForm(){
     console.log(this.farmerSell);
     this.farmerService.saveFarmerSell(this.farmerSell).subscribe(data =>{
       console.log(data);
+      this.router.navigate(["transitPass"]);
     })
   }
 }

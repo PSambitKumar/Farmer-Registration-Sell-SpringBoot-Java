@@ -1,26 +1,43 @@
 package com.csm.Controller;
 
+import com.csm.Bean.BankDetailsBean;
 import com.csm.Bean.FarmerSellBean;
+import com.csm.Bean.Status;
+import com.csm.Bean.TransitPassBean;
 import com.csm.Model.Farmer;
 import com.csm.Model.FarmerSell;
+import com.csm.Model.TransitPass;
 import com.csm.Repository.FarmerRepository;
 import com.csm.Repository.FarmerSellRepository;
 import com.csm.Repository.TransitPassRepository;
+import com.csm.Utils.AadharValidation;
 import com.csm.Utils.FarmerCodeGeneration;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import javax.persistence.Table;
+import java.util.Date;
 import java.util.List;
 
-@Controller
+@RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class FarmerController {
 
-	@ResponseBody
+	@Autowired
+	private FarmerRepository farmerRepository;
+	@Autowired
+	private FarmerSellRepository farmerSellRepository;
+	@Autowired
+	private TransitPassRepository transitPassRepository;
+
 	@PostMapping(value = "/saveFarmer")
 	public List<Farmer> saveFarmer(@RequestBody Farmer farmer){
-		List<Farmer> farmerList = null;
+		List<Farmer> farmerList;
 		try {
 			int maxId;
 			try {
@@ -38,10 +55,8 @@ public class FarmerController {
 		return farmerList;
 	}
 
-	@ResponseBody
 	@GetMapping(value = "/getFarmerList")
 	public List<Farmer> getFarmerList(){
-		System.out.println("Inside Get Farmer List.");
 		List<Farmer> farmerList = null;
 		try {
 			farmerList = farmerRepository.findAll();
@@ -51,84 +66,69 @@ public class FarmerController {
 		return farmerList;
 	}
 
-	@ResponseBody
 	@PostMapping(value = "/saveFarmerSell")
 	public List<FarmerSell> saveFarmerSell(@RequestBody FarmerSellBean farmerSellBean){
-		FarmerSell farmerSell = new FarmerSell();
-		Farmer farmer = farmerRepository.getById(farmerSellBean.getFarmer());
-		System.out.println("Farmer Data : " + farmer);
-		farmerSell.setFarmer(farmer);
-		farmerSell.setQty(farmerSellBean.getQty());
-		farmerSell.setDate(farmerSellBean.getDate());
-		farmerSell.setAmmount(farmerSellBean.getAmmount());
-		System.out.println("Farmer Sell Data : " + farmerSell);
-		farmerSellRepository.save(farmerSell);
-		List<FarmerSell> farmerSellList = farmerSellRepository.findAll();
-		System.out.println("Farmer Sell Lists : " + farmerSellList);
-		return null;
+		List<FarmerSell> farmerSellList;
+		try {
+			Farmer farmer = farmerRepository.getFarmerById(farmerSellBean.getFarmer());
+
+			FarmerSell farmerSell = new FarmerSell();
+			farmerSell.setFarmer(farmer);
+			farmerSell.setAmmount(farmerSellBean.getAmmount());
+			farmerSell.setQty(farmerSellBean.getQty());
+			farmerSell.setDate(farmerSellBean.getDate());
+
+			farmerSellRepository.save(farmerSell);
+			farmerSellList = farmerSellRepository.findAll();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return farmerSellList;
 	}
 
+	@PostMapping(value = "/saveTransitPass")
+	public List<TransitPass> saveTransitPass(@RequestBody TransitPassBean transitPassBean){
+		List<TransitPass> transitPassList;
+		try {
+			Farmer farmer = farmerRepository.getFarmerById(transitPassBean.getFarmer());
+			FarmerSell farmerSell = farmerSellRepository.getFarmerSellByDateAndFarmer(transitPassBean.getDate(), farmer);
+			TransitPass transitPass = new TransitPass();
+			transitPass.setFarmer(farmer);
+			transitPass.setVehicleNo(transitPassBean.getVehicleNo());
+			transitPass.setTransStatus(transitPassBean.getTransStatus());
+			transitPass.setTransQty(transitPassBean.getTransQty());
+			transitPass.setDate(transitPassBean.getDate());
+			transitPass.setFarmerSell(farmerSell);
+			transitPassRepository.save(transitPass);
+			transitPassList = transitPassRepository.findAll();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return transitPassList;
+	}
 
+	@GetMapping(value = "/validateAadhar/{aadhar}")
+	public ResponseEntity<Status> validateAadhar(@PathVariable("aadhar")String aadhar, Status status){
+		if (AadharValidation.validateAadhar(aadhar))
+			status.setStatus("Valid");
+		else
+			status.setStatus("Invalid");
+		System.out.println(status);
+		return ResponseEntity.ok(status);
+	}
 
+	@GetMapping(value = "/getBankUsingIFSCCode/{ifscCode}")
+	public ResponseEntity<BankDetailsBean> getBankUsingIFSCCode(@PathVariable("ifscCode")String ifscCode){
+		System.out.println("Inside Get Bank Details Using IFSC Code----------------------->>");
+		System.out.println("IFSC Code : " + ifscCode);
+		Gson gson = new Gson();
+		RestTemplate restTemplate = new RestTemplate();
+		String bankDetails = restTemplate.getForObject("https://ifsc.razorpay.com/"+ifscCode, String.class);
+		System.out.println(bankDetails);
 
+		BankDetailsBean bankDetailsBean = gson.fromJson(bankDetails, BankDetailsBean.class);
+		System.out.println("Bank Details are : " + bankDetailsBean);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	@Autowired
-	private FarmerRepository farmerRepository;
-	@Autowired
-	private FarmerSellRepository farmerSellRepository;
-	@Autowired
-	private TransitPassRepository transitPassRepository;
-//
-//	@GetMapping("/saveFarmer")
-//	public String saveFarmer(){
-//		Farmer farmer = new Farmer();
-//		farmer.setId(1);
-//		farmer.setFarmerCode("FARMER001");
-//		farmer.setName("Sambit");
-//		farmer.setAadhar("220778011303");
-//		farmer.setAccountNumber("20296602554");
-//		farmer.setBankName("State Bank Of India");
-//		farmer.setIfscCode("SBIN0003942");
-//		farmer.setMobile("7008095918");
-//
-//		farmerRepository.save(farmer);
-//
-//		FarmerSell farmerSell = new FarmerSell();
-//		farmerSell.setFarmer(farmer);
-//		farmerSell.setSellId(1);
-//		farmerSell.setAmmount(20000.50);
-//		farmerSell.setQty(1.6);
-//		farmerSell.setDate(new Date());
-//
-//		System.out.println("Farmer Sell : " + farmerSell);
-//		farmerSellRepository.save(farmerSell);
-//
-//		TransitPass transitPass = new TransitPass();
-//		transitPass.setTransId(1);
-//		transitPass.setFarmer(farmer);
-//		transitPass.setFarmerSell(farmerSell);
-//		transitPass.setDate(new Date());
-//		transitPass.setTransQty(1.0);
-//		transitPass.setTransStatus(1);
-//		transitPass.setVehicleNo("OD070987");
-//
-//		System.out.println("Transit Pass : " + transitPass);
-//		transitPassRepository.save(transitPass);
-//		return null;
-//	}
+		return ResponseEntity.ok(bankDetailsBean);
+	}
 }

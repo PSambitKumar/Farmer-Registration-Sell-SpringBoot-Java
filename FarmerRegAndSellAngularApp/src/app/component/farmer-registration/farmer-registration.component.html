@@ -43,9 +43,9 @@
 
               <div class="col-sm">
                 <div class="col-md-12">
-                  <label class="form-label">Bank Name</label>
-                  <input [(ngModel)]="farmer.bankName"  type="text"  class="form-control" id="bankName" name="bankName" placeholder="Enter Bank Name" required>
-                  <div id="bankAlert" class="custom-alert"></div>
+                  <label for="accountNumber" class="form-label">Account Number</label>
+                  <input [(ngModel)]="farmer.accountNumber" type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Enter  Account Number" required>
+                  <div id="accountNumberAlert" class="custom-alert"></div>
                 </div>
               </div>
             </div>
@@ -53,25 +53,25 @@
             <div class="row" style="margin-top: 2rem;">
               <div class="col-sm">
                 <div class="col-md-12">
+                  <label for="ifscCode" class="form-label">IFSC Code</label>
+                  <input #ifscCode (keyup)="checkIFSCCode(ifscCode.value)" [(ngModel)]="farmer.ifscCode"  type="text"  class="form-control" id="ifscCode" name="ifscCode" placeholder="Enter IFSC Code" required>
+                  <div id="ifscAlert" class="custom-alert"></div>
+                </div>
+              </div>
+
+              <div class="col-sm">
+                <div class="col-md-12">
                   <label for="branchName" class="form-label">Branch Name</label>
                   <input [(ngModel)]="farmer.branch"  type="text"  class="form-control" id="branchName"  name="bankName" placeholder="Enter Branch Name" required>
-                  <div id="relationAlert" class="custom-alert"></div>
+                  <div id="branchAlert" class="custom-alert"></div>
                 </div>
               </div>
 
               <div class="col-sm">
                 <div class="col-md-12">
-                  <label for="accountNumber" class="form-label">Account Number</label>
-                  <input [(ngModel)]="farmer.accountNumber" type="text" class="form-control" id="accountNumber" name="accountNumber" placeholder="Enter  Account Number" required>
-                  <div id="accountNumberAlert" class="custom-alert"></div>
-                </div>
-              </div>
-
-              <div class="col-sm">
-                <div class="col-md-12">
-                  <label for="ifscCode" class="form-label">IFSC Code</label>
-                  <input [(ngModel)]="farmer.ifscCode"  type="text"  class="form-control" id="ifscCode" name="ifscCode" placeholder="Enter IFSC Code" required>
-                  <div id="ifscAlert" class="custom-alert"></div>
+                  <label class="form-label">Bank Name</label>
+                  <input [(ngModel)]="farmer.bankName"  type="text"  class="form-control" id="bankName" name="bankName" placeholder="Enter Bank Name" required>
+                  <div id="bankAlert" class="custom-alert"></div>
                 </div>
               </div>
 

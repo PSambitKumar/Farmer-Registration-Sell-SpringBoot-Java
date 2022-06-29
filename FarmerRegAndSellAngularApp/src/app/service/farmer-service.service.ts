@@ -3,6 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {Farmer} from "../model/farmer";
 import {Observable} from "rxjs";
 import {FarmerSell} from "../model/farmer-sell";
+import {TransitPass} from "../model/transit-pass";
+import {transition} from "@angular/animations";
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +22,14 @@ export class FarmerServiceService {
   }
   saveFarmerSell(farmerSell : FarmerSell) : Observable<FarmerSell[]>{
     return this.httpClient.post<FarmerSell[]>(`${this.baseURL + "/saveFarmerSell"}`, farmerSell);
+  }
+  saveTransitPass(transitPass : TransitPass) : Observable<TransitPass[]>{
+    return this.httpClient.post<TransitPass[]>(`${this.baseURL + "/saveTransitPass"}`, transitPass);
+  }
+  validateAadhar(aadhar : any) : Observable<any>{
+    return this.httpClient.get<any>(`${this.baseURL + "/validateAadhar/"}` + aadhar);
+  }
+  getBankDetailsUsingIFSC(ifscCode : any) : Observable<any>{
+    return this.httpClient.get<any>(`${this.baseURL + "/getBankUsingIFSCCode/"}` + ifscCode);
   }
 }
