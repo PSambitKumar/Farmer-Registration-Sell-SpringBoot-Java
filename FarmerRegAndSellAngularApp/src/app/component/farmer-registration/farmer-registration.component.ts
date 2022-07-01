@@ -43,7 +43,7 @@ export class FarmerRegistrationComponent implements OnInit {
 
   farmerForm(){
     console.log(this.farmer);
-    // console.log(JSON.stringify(this.farmer.aadhar).length == 12); Sometime length not working so need to Convert into String
+    // console.log(JSON.stringify(this.farmer.aadhar).length == 12); Sometime length not working due to numbers so need to Convert into String
     if (this.farmer.name == null || this.farmer.name == ""){
       $('#nameAlert').text("Name Must Not Be Empty!").css('color', 'red');
       $('#name').css('border', '2px solid red');
@@ -85,6 +85,8 @@ export class FarmerRegistrationComponent implements OnInit {
           $('#ifscAlert').text("IFSC Code Must Not Empty").css('color', 'red');
           $('#ifscCode').css('border', '2px solid red');
         }else {
+          this.farmer.bankName = $('#bankName').val();
+          this.farmer.branch = $('#branchName').val();
           this.farmerService.saveFarmer(this.farmer).subscribe(data => {
             this.farmerList = data;
             console.log(this.farmerList);
