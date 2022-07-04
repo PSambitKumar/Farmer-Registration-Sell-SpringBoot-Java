@@ -10,6 +10,5 @@ import java.util.Date;
 public interface FarmerSellRepository extends JpaRepository<FarmerSell, Integer> {
 	@Query("SELECT MAX (sellId) FROM FarmerSell ")
 	int getMaxId();
-
 	FarmerSell getFarmerSellByDateAndFarmer(Date date, Farmer farmer);
 }

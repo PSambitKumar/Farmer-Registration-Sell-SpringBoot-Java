@@ -30,8 +30,10 @@ public class AadharValidation {
     public static boolean validateAadhar(String num){
         int c = 0;
         int[] myArray = StringToReversedIntArray(num);
+        System.out.println("My Array2 : " + myArray);
         for (int i = 0; i < myArray.length; i++){
             c = d[c][p[(i % 8)][myArray[i]]];
+            System.out.println("Data : " + c);
         }
 
         return (c == 0);
@@ -41,6 +43,7 @@ public class AadharValidation {
         for(int i = 0; i < num.length(); i++){
             myArray[i] = Integer.parseInt(num.substring(i, i + 1));
         }
+        System.out.println("My Array1 : " + myArray);
         myArray = Reverse(myArray);
         return myArray;
     }

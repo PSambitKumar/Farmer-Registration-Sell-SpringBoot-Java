@@ -99,6 +99,7 @@ public class FarmerController {
 			transitPass.setTransQty(transitPassBean.getTransQty());
 			transitPass.setDate(transitPassBean.getDate());
 			transitPass.setFarmerSell(farmerSell);
+			System.out.println("Transit Pass Data : " + transitPass);
 			transitPassRepository.save(transitPass);
 			transitPassList = transitPassRepository.findAll();
 		} catch (Exception e) {
